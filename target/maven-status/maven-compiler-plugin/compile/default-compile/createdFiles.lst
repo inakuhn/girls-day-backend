@@ -1,0 +1,5 @@
+de\girlsday\api\GreetingController.class
+de\girlsday\dal\UserRepository.class
+de\girlsday\model\User.class
+de\girlsday\GirlsdaybackendApplication.class
+de\girlsday\config\PersistenceJPAConfig.class
