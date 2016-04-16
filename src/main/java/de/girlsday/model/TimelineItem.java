@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.mysql.fabric.xmlrpc.base.Data;
+
 
 @Entity
 public class TimelineItem {
@@ -24,6 +26,10 @@ public class TimelineItem {
 	String pictureUID;
 	@OneToOne
 	User user;
+	
+	public TimelineItem(){
+		
+	}
 
 	public User getUser() {
 		return user;

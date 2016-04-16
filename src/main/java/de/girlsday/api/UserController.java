@@ -25,7 +25,7 @@ public class UserController extends StringForSwagger {
 	 @ApiOperation(value = loginDescription, nickname = loginTitel)
 	    @RequestMapping(method = RequestMethod.GET, path=loginPath, produces = "application/json")
 	    @ApiImplicitParams({
-	        @ApiImplicitParam(name = myNameParam, value = loginParamDescription, required = true, dataType = "string", paramType = "query", defaultValue="Ina")
+	        @ApiImplicitParam(name = nameParam, value = loginParamDescription, required = true, dataType = "string", paramType = "query", defaultValue="Ina")
 	      })
 	    @ApiResponses(value = { 
 	            @ApiResponse(code = 200, message = "Success", response = User.class),
@@ -33,7 +33,7 @@ public class UserController extends StringForSwagger {
 	            @ApiResponse(code = 403, message = "Forbidden"),
 	            @ApiResponse(code = 404, message = "Not Found"),
 	            @ApiResponse(code = 500, message = "Failure")}) 
-	public User greeting(@RequestParam(value = myNameParam) String name) {
+	public User greeting(@RequestParam(value = nameParam) String name) {
 		User user = new User();
 		user.setName(name);
 		verifyUser(user);
