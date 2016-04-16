@@ -2,13 +2,11 @@ package de.girlsday.api;
 
 import java.io.File;
 import java.io.IOException;
-import java.rmi.server.UID;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.ws.rs.BadRequestException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,24 +53,32 @@ public class TimelineController extends StringForSwagger {
 	}
 
 	@ApiOperation(value = timelinePostDescription, nickname = timelinePostTitel)
-	@RequestMapping(method = RequestMethod.POST, path = timelinePostPath)
+	@RequestMapping(method = RequestMethod.POST, path = timelinePostPath,produces = "application/json")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = nameParam, value = timelineParamPostDescription, required = false, dataType = "string", paramType = "query", defaultValue = "Ina") })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = User.class),
 			@ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
-	public TimelineItem postTimelineItems(@RequestParam(value = nameParam) String name,
+	public TimelineItem postTimelineItems(@RequestParam(value = nameParam, required = true) String name,
 			@RequestParam(value = timelineFileParam) MultipartFile photo,
 			@RequestParam(value = timelineMessageParam) String message) {
 		TimelineItem timelineItem = new TimelineItem();
 		String filePath = "C:\\Temp\\girlsdaypicture\\";
+		String uid = null;
 		try {
-			String uid = UUID.randomUUID().toString();
+			uid = UUID.randomUUID().toString();
 			photo.transferTo(new File(filePath+uid+".png"));
+			timelineItem.setMessage(message);
+			timelineItem.setPictureUID(uid);
+			timelineItem.setUser(userRepository.findByName(name));
+			timelineRepository.save(timelineItem);
+
 		} catch (IllegalStateException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+				
+		
 		return timelineItem;
 
 	}

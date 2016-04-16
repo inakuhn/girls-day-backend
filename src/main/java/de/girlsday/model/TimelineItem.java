@@ -5,8 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.ManyToAny;
 
 import com.mysql.fabric.xmlrpc.base.Data;
 
@@ -20,11 +25,11 @@ public class TimelineItem {
 	public Long getId() {
 		return id;
 	}
-	@Column(unique = true)
 	String message;
 	
 	String pictureUID;
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "USER_ID")
 	User user;
 	
 	public TimelineItem(){
@@ -47,12 +52,12 @@ public class TimelineItem {
 		this.pictureUID = pictureUID;
 	}
 
-	public String getName() {
+	public String getMessage() {
 		return message;
 	}
 
-	public void setName(String name) {
-		this.message = name;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	@Override
 	public String toString() {
