@@ -16,17 +16,16 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.Swagger;
 @RestController
-public class LoginUserController {
+public class UserController extends StringForSwagger {
 
 	@Autowired
 	UserRepository userRepository;
 
-	 @ApiOperation(value = StringForSwagger.loginDescription, nickname = StringForSwagger.loginTitel)
-	    @RequestMapping(method = RequestMethod.GET, path=StringForSwagger.loginPath, produces = "application/json")
+	 @ApiOperation(value = loginDescription, nickname = loginTitel)
+	    @RequestMapping(method = RequestMethod.GET, path=loginPath, produces = "application/json")
 	    @ApiImplicitParams({
-	        @ApiImplicitParam(name = "name", value = "User's name", required = false, dataType = "string", paramType = "query", defaultValue="Ina")
+	        @ApiImplicitParam(name = myNameParam, value = loginParamDescription, required = true, dataType = "string", paramType = "query", defaultValue="Ina")
 	      })
 	    @ApiResponses(value = { 
 	            @ApiResponse(code = 200, message = "Success", response = User.class),
@@ -34,7 +33,7 @@ public class LoginUserController {
 	            @ApiResponse(code = 403, message = "Forbidden"),
 	            @ApiResponse(code = 404, message = "Not Found"),
 	            @ApiResponse(code = 500, message = "Failure")}) 
-	public User greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+	public User greeting(@RequestParam(value = myNameParam) String name) {
 		User user = new User();
 		user.setName(name);
 		verifyUser(user);
